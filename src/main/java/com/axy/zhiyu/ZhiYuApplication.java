@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ZhiYuApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZhiYuApplication.class,args);
-		
+        System.out.println("qweqweqeq");
     }
 
 }
