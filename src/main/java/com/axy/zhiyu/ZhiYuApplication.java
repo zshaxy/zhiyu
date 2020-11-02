@@ -6,12 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("com.axy")
 @MapperScan("com.axy.zhiyu.mapper")
+@ComponentScan("com.axy")
 public class ZhiYuApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZhiYuApplication.class,args);
-        System.out.println("qweqweqeq");
     }
 
 }

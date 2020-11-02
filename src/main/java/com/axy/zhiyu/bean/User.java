@@ -22,4 +22,7 @@ public class User {
 
   @TableField(exist = false)
   private String token;
+
+  @TableField(exist = false)
+  private String sign;
 }

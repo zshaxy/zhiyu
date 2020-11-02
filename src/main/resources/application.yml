@@ -13,6 +13,7 @@ mybatis-plus:
 
 config:
   salt: ZhiYu2020
+  tokenKey: ZhiYuYuLeZhiYuYuLeZhiYuYuLeZhiYuYuLe
 
 
 
