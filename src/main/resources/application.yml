@@ -2,6 +2,7 @@ server:
   port: 80
 spring:
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.1.193:3306/zhiyu?&serverTimezone=GMT&characterEncoding=UTF-8
     username: root
     password: root
