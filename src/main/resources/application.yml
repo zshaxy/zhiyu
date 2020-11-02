@@ -11,6 +11,9 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:com\axy\zhiyu\mapper\xml\*.xml
 
+config:
+  salt: ZhiYu2020
+
 
 
 

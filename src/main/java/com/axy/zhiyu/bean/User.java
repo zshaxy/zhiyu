@@ -1,6 +1,7 @@
 package com.axy.zhiyu.bean;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -19,4 +20,6 @@ public class User {
   private long status;
   private long inviteCode;
 
+  @TableField(exist = false)
+  private String token;
 }
