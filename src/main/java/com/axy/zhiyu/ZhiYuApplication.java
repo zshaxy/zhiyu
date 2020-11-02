@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.axy.zhiyu.mapper")
 public class ZhiYuApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ZhiYuApplication.class);
+        SpringApplication.run(ZhiYuApplication.class,args);
 		
     }
 
