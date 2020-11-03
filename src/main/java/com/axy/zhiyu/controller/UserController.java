@@ -9,9 +9,11 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -26,7 +28,7 @@ public class UserController {
     private String tokenKey;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping("login")
     public R Login(User user, HttpServletRequest request, HttpServletResponse response) {
@@ -46,6 +48,20 @@ public class UserController {
         user.setPassword((String) param.get("password"));
         user = userService.getUserInfo(user);
         return R.ok().data("userInfo", user);
+    }
+
+    /**
+     * 用户注册
+     */
+    @PostMapping("register")
+    public R registerUser(User user) {
+        System.out.println(user.toString());
+        String message = this.userService.registerUser(user);
+        if (StringUtils.equals(message, "邀请码错误！")) {
+            return R.error().message(message);
+        }
+        return R.ok().message(message);
+
     }
 
 }
