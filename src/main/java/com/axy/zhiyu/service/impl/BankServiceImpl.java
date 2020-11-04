@@ -1,6 +1,6 @@
 package com.axy.zhiyu.service.impl;
 
-import com.axy.zhiyu.bean.Bank;
+import com.axy.zhiyu.dao.Bank;
 import com.axy.zhiyu.mapper.BankMapper;
 import com.axy.zhiyu.service.BankService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

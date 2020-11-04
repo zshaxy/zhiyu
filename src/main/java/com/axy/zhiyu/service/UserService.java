@@ -1,6 +1,6 @@
 package com.axy.zhiyu.service;
 
-import com.axy.zhiyu.bean.User;
+import com.axy.zhiyu.dao.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;

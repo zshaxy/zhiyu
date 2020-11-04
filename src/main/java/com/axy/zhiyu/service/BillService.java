@@ -1,6 +1,6 @@
 package com.axy.zhiyu.service;
 
-import com.axy.zhiyu.bean.Bill;
+import com.axy.zhiyu.dao.Bill;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

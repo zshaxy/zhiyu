@@ -1,19 +1,23 @@
-package com.axy.zhiyu.bean;
+package com.axy.zhiyu.dao;
 
-
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import java.util.Date;
 
+
+
 @Data
+@TableName(value = "zf_user")
 public class User {
-  @TableId(type = IdType.ASSIGN_ID)
+  @Id
   private String id;
 
+@TableField(value = "user_name")
   private String username;
 
   private String nickName;

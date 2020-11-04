@@ -1,4 +1,4 @@
-package com.axy.zhiyu.bean;
+package com.axy.zhiyu.dao;
 
 
 import lombok.Data;

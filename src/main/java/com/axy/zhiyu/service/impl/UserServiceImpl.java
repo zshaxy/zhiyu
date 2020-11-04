@@ -1,18 +1,21 @@
 package com.axy.zhiyu.service.impl;
 
-import com.axy.zhiyu.bean.Bank;
-import com.axy.zhiyu.bean.Bill;
-import com.axy.zhiyu.bean.User;
+import com.axy.zhiyu.config.tokenKey;
+import com.axy.zhiyu.dao.Bank;
+import com.axy.zhiyu.dao.Bill;
+import com.axy.zhiyu.dao.User;
 import com.axy.zhiyu.commonutils.*;
 import com.axy.zhiyu.mapper.BankMapper;
 import com.axy.zhiyu.mapper.BillMapper;
 import com.axy.zhiyu.mapper.UserMapper;
 import com.axy.zhiyu.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.annotation.Transient;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
+//@Transactional
+@EnableConfigurationProperties(tokenKey.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
-    @Value("${config.salt}")
-    private String salt;
-
-    @Value("${config.tokenKey}")
-    private String tokenKey;
-
+    @Autowired
+    private tokenKey tokenKey;
     @Autowired
     private UserMapper userMapper;
 
@@ -42,13 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private BankMapper bankMapper;
 
-    @Autowired
-    private IdWorker idWorker;
-
     @Override
     public User login(User user, HttpServletRequest request, HttpServletResponse response) {
         // 加密密码
-        String password = CodecUtils.md5Hex(user.getPassword(), salt);
+        String password = CodecUtils.md5Hex(user.getPassword(), tokenKey.getSalt());
         user.setPassword(password);
         // 获取用户信息
         user = getUserInfo(user);
@@ -58,7 +54,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             param.put("id", user.getId());
             param.put("username", user.getUsername());
             param.put("password", user.getPassword());
-            String token = JwtUtil.encode(tokenKey, param, salt);
+            String token = JwtUtil.encode(tokenKey.getTokenKey(), param, tokenKey.getSalt());
             user.setToken(token);
             CookieUtil.setCookie(request, response, "token", token, WebConst.COOKIE_MAXAGE, false);
             return user;
@@ -89,21 +85,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (users == null || users.size() == 0) {
             return "邀请码错误！";
         }
+        User user1 = this.userMapper.selectById(user.getUsername());
+        if (user1 == null || users.size() == 0) {
+            return "用户已经存在！";
+        }
 
         //用户注册
+        IdWorker idWorker = new IdWorker();
         user.setNickName(String.valueOf(idWorker.nextId()));
         user.setAvatar(null);
         user.setCreateTime(new Date());
-        user.setInviteCode(Integer.valueOf(user.getNickName()));
+        user.setInviteCode(Integer.valueOf(StringUtils.right(user.getNickName(),6)));
         this.userMapper.insert(user);
-
-        Bill bill = new Bill();
-        bill.setUserId(user.getId());
-        this.billMapper.insert(bill);
-
-        Bank bank = new Bank();
-        bank.setUserId(user.getId());
-        this.bankMapper.insert(bank);
 
         return "注册成功！";
     }
